@@ -9,7 +9,7 @@ public class LoginPage {
     private final By email = By.xpath(".//label[text() = 'Email']/parent::div/input");
     //поле "Пароль"
     private final By password = By.xpath(".//label[text() = 'Пароль']/parent::div/input");
-    //
+    // Кнопка "Войти"
     private final By loginButton = By.xpath(".//button[text() = 'Войти']");
 
     public LoginPage(WebDriver webDriver){

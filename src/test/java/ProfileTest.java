@@ -40,7 +40,7 @@ public class ProfileTest {
 
     @Test
     @DisplayName("Переход в личный кабинет")
-    public void goToProfile() {
+    public void checkGoToProfile() {
         HeaderPage headerPage = new HeaderPage(driver);
         headerPage.openProfile();
         new WebDriverWait(driver, 20).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//a[text() = 'Профиль']")));

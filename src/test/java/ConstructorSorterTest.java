@@ -17,7 +17,7 @@ public class ConstructorSorterTest {
 
     @Test
     @DisplayName("Переход к разделу «Булки»")
-    public void sortBuns(){
+    public void checkSortingByBuns(){
         MainPage mainPage = new MainPage(driver);
         mainPage.sortBuns();
         Assert.assertTrue(mainPage.bunsIsActive());
@@ -25,7 +25,7 @@ public class ConstructorSorterTest {
     }
     @Test
     @DisplayName("Переход к разделу «Соусы»")
-    public void sortSauces(){
+    public void checkSortingBySauces(){
         MainPage mainPage = new MainPage(driver);
         mainPage.sortSauces();
         Assert.assertTrue(mainPage.saucesIsActive());
@@ -33,7 +33,7 @@ public class ConstructorSorterTest {
     }
     @Test
     @DisplayName("Переход к разделу «Начинки»")
-    public void sortFillings(){
+    public void checkSortingByFillings(){
         MainPage mainPage = new MainPage(driver);
         mainPage.sortFillings();
         Assert.assertTrue(mainPage.fillingsIsActive());

@@ -35,7 +35,7 @@ public class LoginTest {
 
     @Test
     @DisplayName("Вход по кнопке «Войти в аккаунт» на главной")
-    public void loginFromMainPage(){
+    public void checkLoginFromMainPage(){
         MainPage mainPage = new MainPage(driver);
         mainPage.openMainPage();
         mainPage.clickLoginButton();
@@ -49,7 +49,7 @@ public class LoginTest {
 
     @Test
     @DisplayName("Вход через кнопку «Личный кабинет»")
-    public void loginFromProfile(){
+    public void checkLoginFromProfile(){
         MainPage mainPage = new MainPage(driver);
         mainPage.openMainPage();
         HeaderPage headerPage = new HeaderPage(driver);
@@ -65,7 +65,7 @@ public class LoginTest {
 
     @Test
     @DisplayName("Вход через кнопку в форме регистрации")
-    public void loginFromRegistrationPage(){
+    public void checkLoginFromRegistrationPage(){
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.openRegistrationPage();
         registrationPage.goToLogin();
@@ -79,7 +79,7 @@ public class LoginTest {
 
     @Test
     @DisplayName("Вход через кнопку в форме восстановления пароля")
-    public void loginFromForgotPasswordPage(){
+    public void checkLoginFromForgotPasswordPage(){
         ForgotPasswordPage forgotPasswordPage = new ForgotPasswordPage(driver);
         forgotPasswordPage.openForgotPasswordPage();
         forgotPasswordPage.goToLogin();

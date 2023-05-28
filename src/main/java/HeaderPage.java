@@ -6,10 +6,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class HeaderPage {
 
     private final WebDriver driver;
+    //Логотип
     private final By logo = By.xpath(".//div[contains(@class, 'AppHeader_header__logo')]");
+    //Кнопка "Конструктор"
     private final By constructorButton = By.xpath(".//p[text() = 'Конструктор']");
     //кнопка "Личный кабинет"
-    private final By cabinet = By.xpath(".//p[text() = 'Личный Кабинет']");
+    private final By profile = By.xpath(".//p[text() = 'Личный Кабинет']");
 
     public HeaderPage(WebDriver driver) {
         this.driver = driver;
@@ -25,7 +27,7 @@ public class HeaderPage {
         driver.findElement(constructorButton).click();
     }
     public void openProfile(){
-        driver.findElement(cabinet).click();
+        driver.findElement(profile).click();
     }
 
 }

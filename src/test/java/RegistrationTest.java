@@ -36,7 +36,7 @@ public class RegistrationTest {
 
     @Test
     @DisplayName("Регистрация c паролем > 6 символов")
-    public void registrationWithValidPassword() {
+    public void checkRegistrationWithValidPassword() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.clickRegistrationLink();
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
@@ -50,7 +50,7 @@ public class RegistrationTest {
 
     @Test
     @DisplayName("Регистрация c паролем < 6 символов")
-    public void registrationWithInvalidPassword() {
+    public void checkRegistrationWithInvalidPassword() {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.clickRegistrationLink();
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);

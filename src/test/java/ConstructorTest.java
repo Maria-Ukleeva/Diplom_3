@@ -42,7 +42,7 @@ public class ConstructorTest {
 
     @Test
     @DisplayName("Переход из личного кабинета в конструктор  по клику на «Конструктор»")
-    public void clickOnGoToConstructor(){
+    public void checkClickOnGoToConstructor(){
         HeaderPage headerPage = new HeaderPage(driver);
         headerPage.goToConstructor();
         new WebDriverWait(driver, 20).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//button[text() = 'Оформить заказ']")));
@@ -53,7 +53,7 @@ public class ConstructorTest {
 
     @Test
     @DisplayName("Переход из личного кабинета в конструктор по клику на логотип Stellar Burgers")
-    public void clickOnLogo(){
+    public void checkClickOnLogo(){
         HeaderPage headerPage = new HeaderPage(driver);
         headerPage.clickLogo();
         new WebDriverWait(driver, 20).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//button[text() = 'Оформить заказ']")));

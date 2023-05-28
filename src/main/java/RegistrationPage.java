@@ -11,7 +11,9 @@ public class RegistrationPage {
     private final By password = By.xpath(".//label[text() = 'Пароль']/parent::div/input");
     //кнопка "Зарегистрироваться"
     private final By registrationButton = By.xpath(".//button[text() = 'Зарегистрироваться']");
+    //Кнопка "Войти"
     private final By loginButton = By.xpath(".//a[text() = 'Войти']");
+    //Ошибка "Некорректный пароль"
     private final By error = By.className("input__error");
 
     public RegistrationPage(WebDriver webDriver) {
