@@ -14,14 +14,14 @@ public class RegistrationPage {
     //Кнопка "Войти"
     private final By loginButton = By.xpath(".//a[text() = 'Войти']");
     //Ошибка "Некорректный пароль"
-    private final By error = By.className("input__error");
+    private final By passwordError = By.className("input__error");
 
     public RegistrationPage(WebDriver webDriver) {
         this.driver = webDriver;
 
     }
     public void openRegistrationPage(){
-        driver.get("https://stellarburgers.nomoreparties.site/register");
+        driver.get(Constants.REGISTRATION_URL);
     }
     public void fillInAllFields(String nameValue, String emailValue, String passwordValue){
         driver.findElement(name).sendKeys(nameValue);
@@ -32,8 +32,8 @@ public class RegistrationPage {
         driver.findElement(registrationButton).click();
     }
 
-    public Boolean ifThereIsAnError() {
-        return driver.findElement(error).isDisplayed();
+    public Boolean ifThereIsAnIncorrectPasswordError() {
+        return driver.findElement(passwordError).isDisplayed();
     }
 
     public void goToLogin(){

@@ -1,36 +1,25 @@
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-
-import static io.restassured.RestAssured.given;
-
-public class LoginTest {
+public class LoginTest extends BaseTest {
     private WebDriver driver;
     public String email;
     public String password;
     public User user;
 
+
+
     @Before
-    public void createNewDriverAndUserOpenMainPage() {
-        user = TestDataGenerator.getData();
+    public void createUser() {
+        driver = super.driver;
+        user = RegisterApi.createUser();
+        RegisterApi.registerUser(user);
         email = user.getEmail();
         password = user.getPassword();
-        given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(user)
-                .when()
-                .post("https://stellarburgers.nomoreparties.site/api/auth/register");
-        driver = new ChromeDriver();
     }
 
     @Test
@@ -42,9 +31,9 @@ public class LoginTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.fillInAllFields(email, password);
         loginPage.clickLoginButton();
-        new WebDriverWait(driver, 20).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//button[text() = 'Оформить заказ']")));
+        mainPage.waitPageToLoad();
         String actualUrl = driver.getCurrentUrl();
-        Assert.assertEquals("https://stellarburgers.nomoreparties.site/", actualUrl);
+        Assert.assertEquals(Constants.BASEURL, actualUrl);
     }
 
     @Test
@@ -57,10 +46,10 @@ public class LoginTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.fillInAllFields(email, password);
         loginPage.clickLoginButton();
-        new WebDriverWait(driver, 20).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//button[text() = 'Оформить заказ']")));
+        mainPage.waitPageToLoad();
         String actualUrl = driver.getCurrentUrl();
-        Assert.assertTrue(driver.findElement(By.xpath(".//button[text() = 'Оформить заказ']")).isDisplayed());
-        Assert.assertEquals("https://stellarburgers.nomoreparties.site/", actualUrl);
+        Assert.assertTrue(mainPage.checkIsConstructorDisplayed());
+        Assert.assertEquals(Constants.BASEURL, actualUrl);
     }
 
     @Test
@@ -72,9 +61,10 @@ public class LoginTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.fillInAllFields(email, password);
         loginPage.clickLoginButton();
-        new WebDriverWait(driver, 20).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//button[text() = 'Оформить заказ']")));
+        MainPage mainPage = new MainPage(driver);
+        mainPage.waitPageToLoad();
         String actualUrl = driver.getCurrentUrl();
-        Assert.assertEquals("https://stellarburgers.nomoreparties.site/", actualUrl);
+        Assert.assertEquals(Constants.BASEURL, actualUrl);
     }
 
     @Test
@@ -86,27 +76,15 @@ public class LoginTest {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.fillInAllFields(email, password);
         loginPage.clickLoginButton();
-        new WebDriverWait(driver, 20).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//button[text() = 'Оформить заказ']")));
+        MainPage mainPage = new MainPage(driver);
+        mainPage.waitPageToLoad();
         String actualUrl = driver.getCurrentUrl();
-        Assert.assertEquals("https://stellarburgers.nomoreparties.site/", actualUrl);
+        Assert.assertEquals(Constants.BASEURL, actualUrl);
     }
 
     @After
     public void cleanUp(){
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(user)
-                .when()
-                .post("https://stellarburgers.nomoreparties.site/api/auth/login");
-
-            String token = response.body().as(Session.class).getAccessToken().substring(7);
-            given()
-                    .header("Content-type", "application/json")
-                    .auth()
-                    .oauth2(token)
-                    .delete("https://stellarburgers.nomoreparties.site/api/auth/user");
-
-        driver.quit();
+        RegisterApi.deleteUser();
     }
+
 }

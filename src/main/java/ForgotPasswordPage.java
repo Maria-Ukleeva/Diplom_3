@@ -11,7 +11,7 @@ public class ForgotPasswordPage {
     }
 
     public void openForgotPasswordPage(){
-        driver.get("https://stellarburgers.nomoreparties.site/forgot-password");
+        driver.get(Constants.FORGOT_PASSWORD);
     }
     public void goToLogin(){
         driver.findElement(loginButton).click();

@@ -1,20 +1,19 @@
 import io.qameta.allure.junit4.DisplayName;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
-public class ConstructorSorterTest {
+public class ConstructorSorterTest extends BaseTest {
+
     private WebDriver driver;
+
     @Before
-    public void createNewDriverAndOpenMainPage() {
-        driver = new ChromeDriver();
+    public void openMainPage(){
+        driver = super.driver;
         MainPage mainPage = new MainPage(driver);
         mainPage.openMainPage();
     }
-
     @Test
     @DisplayName("Переход к разделу «Булки»")
     public void checkSortingByBuns(){
@@ -39,8 +38,4 @@ public class ConstructorSorterTest {
         Assert.assertTrue(mainPage.fillingsIsActive());
     }
 
-    @After
-    public void cleanUp(){
-        driver.quit();
-    }
 }

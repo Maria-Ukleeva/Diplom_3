@@ -1,31 +1,28 @@
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
-import static io.restassured.RestAssured.given;
 
-public class RegistrationTest {
+public class RegistrationTest extends BaseTest {
     private WebDriver driver;
     public String username;
     public String email;
+    public String password;
     public User user;
 
+
     @Before
-    public void createNewDriverAndUserOpenMainPage() {
-        user = TestDataGenerator.getData();
+    public void createNewDriverAndUserAndOpenManePage() {
+        user = RegisterApi.createUser();
         username = user.getName();
         email = user.getEmail();
-        driver = new ChromeDriver();
+        password = user.getPassword();
+        driver = super.driver;
         MainPage mainPage = new MainPage(driver);
         mainPage.openMainPage();
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
@@ -41,11 +38,11 @@ public class RegistrationTest {
         loginPage.clickRegistrationLink();
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.fillInAllFields(username, email, Password.PASSWORD);
+        registrationPage.fillInAllFields(username, email, password);
         registrationPage.clickRegistrationButton();
-        new WebDriverWait(driver, 20).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//h2[text() = 'Вход']")));
+        loginPage.waitPageToLoad();
         String actualUrl = driver.getCurrentUrl();
-        Assert.assertEquals("https://stellarburgers.nomoreparties.site/login", actualUrl);
+        Assert.assertEquals(Constants.LOGIN_URL, actualUrl);
     }
 
     @Test
@@ -59,27 +56,19 @@ public class RegistrationTest {
         registrationPage.clickRegistrationButton();
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         String actualUrl = driver.getCurrentUrl();
-        Assert.assertEquals("https://stellarburgers.nomoreparties.site/register", actualUrl);
-        Assert.assertTrue(registrationPage.ifThereIsAnError());
+        Assert.assertEquals(Constants.REGISTRATION_URL, actualUrl);
+        Assert.assertTrue(registrationPage.ifThereIsAnIncorrectPasswordError());
     }
 
     @After
     public void cleanUp(){
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(user)
-                .when()
-                .post("https://stellarburgers.nomoreparties.site/api/auth/login");
-try {
-    String token = response.body().as(Session.class).getAccessToken().substring(7);
-    given()
-            .header("Content-type", "application/json")
-            .auth()
-            .oauth2(token)
-            .delete("https://stellarburgers.nomoreparties.site/api/auth/user");
-} catch (NullPointerException ignored){}
-        driver.quit();
+        try {
+        LoginApi.loginUser(user);
+        String token = LoginApi.getAccessToken();
+        RegisterApi.deleteUser(token);
+        } catch (NullPointerException nullPointerException) {
+            System.out.println("Юзер не удален");
+        }
     }
 }
 
